@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: speedee;
+    src: url("./assets/fonts/speedee.ttf");
+}
+
+:root {
+    --primary-dark: #103C7D;
+    --primary-light: #2374eb;
+    --secondary: #3c0892;
+}
+
+@theme {
+    --color-primary-dark: var(--primary-dark);
+    --color-primary-light: var(--primary-light);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+}
+
+body {
+    background: aqua;
+    margin: 0;
+    padding: 0;
+}
+
+.speedee {
+    font-family: speedee, sans-serif;
+}
