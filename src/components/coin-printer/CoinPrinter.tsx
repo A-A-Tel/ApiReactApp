@@ -1,7 +1,8 @@
 import Coin from "@/components/coin";
 import type { ReactElement } from 'react';
+import type {coinData} from "@/components/coin/Coin.tsx";
 
-export default function CoinPrinter({coins}: { coins: { name: string, symbol: string, price: string, icon: string }[] }) {
+export default function CoinPrinter({coins}: { coins: coinData[] }) {
 
     const coinElements: ReactElement[] = [];
 

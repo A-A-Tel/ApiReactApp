@@ -9,11 +9,17 @@
     --primary-dark: #103C7D;
     --primary-light: #2374eb;
     --secondary: #3c0892;
+    --coin-name: #ff0000;
+    --coin-symbol: #29ff00;
+    --coin-price: #ff7b00;
 }
 
 @theme {
     --color-primary-dark: var(--primary-dark);
     --color-primary-light: var(--primary-light);
+    --color-coin-name: var(--coin-name);
+    --color-coin-symbol: var(--coin-symbol);
+    --color-coin-price: var(--coin-price);
 }
 
 * {
