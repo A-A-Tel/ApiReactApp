@@ -18,7 +18,6 @@ export function Coin({id, icon, name, price, symbol, favourites, setFavourites}:
             newFavourites.push(id);
         }
 
-        localStorage.setItem('favourites', JSON.stringify(newFavourites));
         setFavourites(newFavourites)
     }
 
