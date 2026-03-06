@@ -1,3 +1,3 @@
-import CoinPrinter from "@/components/coin-printer/CoinPrinter.tsx";
+import {CoinPrinter} from "@/components/coin-printer/CoinPrinter.tsx";
 
-export default CoinPrinter;
+export {CoinPrinter};

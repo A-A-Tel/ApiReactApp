@@ -1,3 +1,3 @@
-import Routes from './Routes.tsx';
+import {Routes} from './Routes.tsx';
 
-export default Routes;
+export {Routes};

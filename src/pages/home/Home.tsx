@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
-import Header from "@/components/header";
+import {Header} from "@/components/header";
 
-import CoinPrinter from "@/components/coin-printer";
+import {CoinPrinter} from "@/components/coin-printer";
+import type {CoinData} from "@/types.ts";
 
-export default function Home() {
-    const [coins, setCoins] = useState([]);
+export function Home() {
+    const [coins, setCoins] = useState<CoinData[]>([]);
 
     useEffect(() => {
         fetch(
@@ -25,11 +26,13 @@ export default function Home() {
                             symbol: string;
                             current_price: string;
                             image: string;
+                            id: string;
                         }) => ({
                             name: c.name,
                             symbol: c.symbol.toUpperCase(),
                             price: c.current_price,
-                            icon: c.image
+                            icon: c.image,
+                            id: c.id
                         })));
                     });
             });

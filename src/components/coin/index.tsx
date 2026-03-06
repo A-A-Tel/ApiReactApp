@@ -1,3 +1,3 @@
-import Coin from './Coin.tsx'
+import {Coin} from './Coin.tsx';
 
-export default Coin;
+export {Coin};

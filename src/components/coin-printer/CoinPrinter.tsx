@@ -1,13 +1,17 @@
-import Coin from "@/components/coin";
+import {Coin} from "@/components/coin";
+import { useState } from 'react';
 import type { ReactElement } from 'react';
-import type {coinData} from "@/components/coin/Coin.tsx";
+import type {CoinData} from "@/types.ts";
 
-export default function CoinPrinter({coins}: { coins: coinData[] }) {
+export function CoinPrinter({coins}: { coins: CoinData[] }) {
+    const [favourites, setFavourites] = useState<string[]>(JSON.parse(localStorage.getItem('favourites') ?? '[]'));
+
 
     const coinElements: ReactElement[] = [];
 
     for (const coin of coins) {
-        coinElements.push(<Coin icon={coin.icon} name={coin.name} price={coin.price} symbol={coin.symbol}/>);
+        coinElements.push(<Coin icon={coin.icon} name={coin.name} price={coin.price} symbol={coin.symbol} id={coin.id}
+                                favourites={favourites} setFavourites={setFavourites}/>);
     }
 
     return (

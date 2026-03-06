@@ -1,3 +1,3 @@
-import Home from "@/pages/home/Home.tsx";
+import {Home} from "@/pages/home/Home.tsx";
 
-export default Home;
+export {Home};

@@ -1,7 +1,7 @@
 import { Route } from "wouter";
-import Home from "@/pages/home";
+import {Home} from "@/pages/home";
 
-export default function Routes() {
+export function Routes() {
     return <>
         <Route path='/' children={<Home/>}/>
     </>
