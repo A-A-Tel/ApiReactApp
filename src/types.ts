@@ -1,7 +1,8 @@
 export type CoinData = {
-    id: string
+    id: number
     name: string;
     symbol: string;
-    price: string;
+    price: number;
+    oldPrice: number
     icon: string;
 };

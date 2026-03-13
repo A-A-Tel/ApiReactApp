@@ -8,35 +8,47 @@ export function Home() {
     const [coins, setCoins] = useState<CoinData[]>([]);
 
     useEffect(() => {
-        fetch(
-            "https://api.coingecko.com/api/v3/search/trending"
-        )
-            .then(r => r.json())
-            .then(data => {
-                const ids = data.coins.map((c: { item: { id: string; }; }) => c.item.id).join(",");
-
-                fetch(
-                    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${ids}`
+            const fetchCoins = () => {
+                fetch('https://data-api.coindesk.com/asset/v1/top/list' +
+                    '?page=1' +
+                    '&page_size=100' +
+                    '&sort_by=PRICE_USD' +
+                    '&sort_direction=DESC' +
+                    '&groups=ID,BASIC,SUPPLY,PRICE,MKT_CAP,VOLUME,CHANGE,TOPLIST_RANK' +
+                    '&asset_type=BLOCKCHAIN'
                 )
                     .then(r => r.json())
                     .then(data => {
+                        setCoins(prevCoins => {
+                            const newCoins: CoinData[] = [];
 
-                        setCoins(data.map((c: {
-                            name: string;
-                            symbol: string;
-                            current_price: string;
-                            image: string;
-                            id: string;
-                        }) => ({
-                            name: c.name,
-                            symbol: c.symbol.toUpperCase(),
-                            price: c.current_price,
-                            icon: c.image,
-                            id: c.id
-                        })));
-                    });
-            });
-    }, []);
+                            for (const coinData of data.Data.LIST) {
+                                const previousPrice =
+                                    prevCoins.find(c => c.symbol === coinData.SYMBOL)?.price
+                                    ?? coinData.PRICE_USD;
+
+                                newCoins.push({
+                                    id: coinData.ID,
+                                    name: coinData.NAME,
+                                    symbol: coinData.SYMBOL,
+                                    price: coinData.PRICE_USD,
+                                    oldPrice: previousPrice,
+                                    icon: coinData.LOGO_URL
+                                });
+                            }
+
+                            return newCoins;
+                        });
+                    })
+            };
+
+            fetchCoins();
+
+            const interval = setInterval(fetchCoins, 3000);
+
+            return () => clearInterval(interval);
+        }, []
+    );
 
     return (
         <>
