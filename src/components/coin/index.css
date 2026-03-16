@@ -4,5 +4,5 @@
     background: var(--secondary);
     display: grid;
     grid-auto-columns: 20vw;
-    grid-template-columns: 5vw 27vw 27vw 27vw 14vw;
+    grid-template-columns: 5vw 20vw 20vw 20vw 21vw 12vw 2vw;
 }

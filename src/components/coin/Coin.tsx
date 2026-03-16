@@ -47,6 +47,11 @@ export function Coin({data, favourites, setFavourites}: CoinProps) {
             </span>
 
             <span className='speedee text-white text-2xl flex justify-between mx-4 bg-[rgba(0,0,0,0.3)]'>
+                Market cap:
+                <span className='text-coin-cap'>${data.marketCap.toFixed()}</span>
+            </span>
+
+            <span className='speedee text-white text-2xl flex justify-between mx-4 bg-[rgba(0,0,0,0.3)]'>
                 Price:
                 <span>
                     {percentage !== 0 && (
@@ -62,7 +67,7 @@ export function Coin({data, favourites, setFavourites}: CoinProps) {
 
             <button
                 onClick={() => toggleFavourite(data.id)}
-                className='speedee bg-primary-light p-4 text-white text-2xl rounded-2xl mr-20'
+                className='speedee bg-primary-light p-4 text-white text-2xl rounded-2xl'
             >
                 {isFavourite ? 'Unfavourite' : 'Favourite'}
             </button>

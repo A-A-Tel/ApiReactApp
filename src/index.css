@@ -12,6 +12,7 @@
     --coin-name: #ff0000;
     --coin-symbol: #29ff00;
     --coin-price: #ff7b00;
+    --coin-cap: #ffff00;
 }
 
 @theme {
@@ -20,6 +21,7 @@
     --color-coin-name: var(--coin-name);
     --color-coin-symbol: var(--coin-symbol);
     --color-coin-price: var(--coin-price);
+    --color-coin-cap: var(--coin-cap);
 }
 
 * {

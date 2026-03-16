@@ -15,17 +15,17 @@ export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
     const [favourites, setFavourites] = favouritesState ?? [localFavourites, setLocalFavourites]
     const [search, setSearch] = useState<string>('');
 
-
     const coinElements = coins
         .filter(coin => (
                 (
                     coin.name.toLowerCase().includes(search.toLowerCase()) ||
                     coin.symbol.toLowerCase().includes(search.toLowerCase())
-                ) &&
-                favouritesState ? favourites!.includes(coin.id) : true
+                )
             )
         )
         .map(coin => <Coin key={coin.id} data={coin} favourites={favourites!} setFavourites={setFavourites}/>);
+
+    console.log(coinElements.length)
 
 
     return (
@@ -33,7 +33,7 @@ export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
             <div className='flex gap-5mx-auto w-fit mx-auto flex-col items-center gap-8 '>
                 <h2 className='speedee text-3xl'>Market cap</h2>
                 <PieChart series={[{
-                    data: coins.slice(0,10).map<PieValueType>(coin => {
+                    data: coins.slice(0, 10).map<PieValueType>(coin => {
                         return {
                             id: coin.id,
                             value: coin.marketCap,
@@ -41,10 +41,10 @@ export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
                         }
                     })
                 }]}
-                width={300}
-                height={300}/>
+                          width={300}
+                          height={300}/>
             </div>
-            <input value={search} onChange={event => setSearch(event.target.value)}
+            <input placeholder='Filter' value={search} onChange={event => setSearch(event.target.value)}
                    className='mx-12 bg-cyan-900 p-2 rounded-2xl speedee text-white' type="text"/>
             {coinElements}
         </div>
