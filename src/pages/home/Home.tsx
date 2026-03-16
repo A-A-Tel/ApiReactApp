@@ -5,7 +5,7 @@ import {CoinPrinter} from "@/components/coin-printer";
 import type {CoinData} from "@/types.ts";
 
 export function Home() {
-    const [coins, setCoins] = useState<CoinData[]>([]);
+    const [coins, setCoins] = useState<CoinData[]|undefined>(undefined);
 
     useEffect(() => {
             const fetchCoins = () => {
@@ -24,7 +24,7 @@ export function Home() {
 
                             for (const coinData of data.Data.LIST) {
                                 const previousPrice =
-                                    prevCoins.find(c => c.symbol === coinData.SYMBOL)?.price
+                                    prevCoins?.find(c => c.symbol === coinData.SYMBOL)?.price
                                     ?? coinData.PRICE_USD;
 
                                 newCoins.push({
@@ -33,11 +33,12 @@ export function Home() {
                                     symbol: coinData.SYMBOL,
                                     price: coinData.PRICE_USD,
                                     oldPrice: previousPrice,
-                                    icon: coinData.LOGO_URL
+                                    icon: coinData.LOGO_URL,
+                                    marketCap: coinData.CIRCULATING_MKT_CAP_USD
                                 });
                             }
 
-                            return newCoins;
+                            return newCoins.sort((a, b) => b.marketCap - a.marketCap);
                         });
                     })
             };
@@ -53,7 +54,7 @@ export function Home() {
     return (
         <>
             <Header/>
-            <CoinPrinter coins={coins}/>
+            {coins && <CoinPrinter coins={coins} favouritesState={undefined}/>}
         </>
     );
 }

@@ -5,4 +5,5 @@ export type CoinData = {
     price: number;
     oldPrice: number
     icon: string;
+    marketCap: number;
 };

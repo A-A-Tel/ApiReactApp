@@ -6,7 +6,7 @@ import {CoinPrinter} from "@/components/coin-printer";
 
 export function Favourites() {
     const [favourites, setFavourites] = useLocalStorage<number[]>('favourites', []);
-    const [coins, setCoins] = useState<CoinData[]>([]);
+    const [coins, setCoins] = useState<CoinData[]|undefined>(undefined);
 
     useEffect(() => {
 
@@ -22,7 +22,7 @@ export function Favourites() {
 
                             for (const coinDataKey in data.Data) {
                                 const previousPrice =
-                                    prevCoins.find(c => c.symbol === data.Data[coinDataKey].SYMBOL)?.price
+                                    prevCoins?.find(c => c.symbol === data.Data[coinDataKey].SYMBOL)?.price
                                     ?? data.Data[coinDataKey].PRICE_USD;
 
                                 newCoins.push({
@@ -31,11 +31,12 @@ export function Favourites() {
                                     symbol: data.Data[coinDataKey].SYMBOL,
                                     price: data.Data[coinDataKey].PRICE_USD,
                                     oldPrice: previousPrice,
-                                    icon: data.Data[coinDataKey].LOGO_URL
+                                    icon: data.Data[coinDataKey].LOGO_URL,
+                                    marketCap: data.Data[coinDataKey].TOTAL_MKT_CAP_USD
                                 });
                             }
 
-                            return newCoins;
+                            return newCoins.sort((a, b) => b.marketCap - a.marketCap);
                         });
                     })
             };
@@ -51,7 +52,7 @@ export function Favourites() {
     return (
         <>
             <Header/>
-            <CoinPrinter coins={coins} favouritesState={[favourites!, setFavourites]}/>
+            {coins && <CoinPrinter coins={coins} favouritesState={[favourites!, setFavourites]}/>}
         </>
     )
 }

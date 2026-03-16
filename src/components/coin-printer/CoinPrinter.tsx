@@ -1,6 +1,8 @@
 import {Coin} from "@/components/coin";
 import {useLocalStorage} from 'react-use';
 import {useState} from 'react';
+import {PieChart} from '@mui/x-charts/PieChart';
+import type {PieValueType} from '@mui/x-charts/models';
 import type {CoinData} from "@/types.ts";
 
 type CoinPrinterProps = {
@@ -15,21 +17,33 @@ export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
 
 
     const coinElements = coins
-        .filter(coin => {
-                return (
-                    (
-                        coin.name.toLowerCase().includes(search.toLowerCase()) ||
-                        coin.symbol.toLowerCase().includes(search.toLowerCase())
-                    ) &&
-                    favouritesState ? favourites!.includes(coin.id) : true
-                );
-            }
+        .filter(coin => (
+                (
+                    coin.name.toLowerCase().includes(search.toLowerCase()) ||
+                    coin.symbol.toLowerCase().includes(search.toLowerCase())
+                ) &&
+                favouritesState ? favourites!.includes(coin.id) : true
+            )
         )
         .map(coin => <Coin key={coin.id} data={coin} favourites={favourites!} setFavourites={setFavourites}/>);
 
 
     return (
         <div className='mt-6 flex flex-col gap-5'>
+            <div className='flex gap-5mx-auto w-fit mx-auto flex-col items-center gap-8 '>
+                <h2 className='speedee text-3xl'>Market cap</h2>
+                <PieChart series={[{
+                    data: coins.slice(0,10).map<PieValueType>(coin => {
+                        return {
+                            id: coin.id,
+                            value: coin.marketCap,
+                            label: coin.name
+                        }
+                    })
+                }]}
+                width={300}
+                height={300}/>
+            </div>
             <input value={search} onChange={event => setSearch(event.target.value)}
                    className='mx-12 bg-cyan-900 p-2 rounded-2xl speedee text-white' type="text"/>
             {coinElements}
