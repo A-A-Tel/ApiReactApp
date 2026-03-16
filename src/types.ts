@@ -7,3 +7,11 @@ export type CoinData = {
     icon: string;
     marketCap: number;
 };
+
+export type CoinInfoData = CoinData & {
+    launchDate: Date;
+    description: string;
+    dayChange: number;
+    weekChange: number;
+    monthChange: number;
+}

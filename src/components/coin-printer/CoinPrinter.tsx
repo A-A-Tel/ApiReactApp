@@ -23,9 +23,8 @@ export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
                 )
             )
         )
-        .map(coin => <Coin key={coin.id} data={coin} favourites={favourites!} setFavourites={setFavourites}/>);
+        .map(coin => <Coin key={coin.id} coin={coin} favourites={favourites!} setFavourites={setFavourites}/>);
 
-    console.log(coinElements.length)
 
 
     return (
@@ -40,9 +39,7 @@ export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
                             label: coin.name
                         }
                     })
-                }]}
-                          width={300}
-                          height={300}/>
+                }]} width={300} height={300}/>
             </div>
             <input placeholder='Filter' value={search} onChange={event => setSearch(event.target.value)}
                    className='mx-12 bg-cyan-900 p-2 rounded-2xl speedee text-white' type="text"/>
