@@ -36,7 +36,7 @@ button {
 }
 
 a {
-    color: #b3ce00;
+    color: #f3fb00;
 }
 
 a:visited {
@@ -51,4 +51,10 @@ body {
 
 .speedee {
     font-family: speedee, sans-serif;
+}
+
+.no-decor {
+    a {
+        text-decoration: none;
+    }
 }

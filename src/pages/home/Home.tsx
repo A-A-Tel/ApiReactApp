@@ -54,7 +54,7 @@ export function Home() {
     return (
         <>
             <Header/>
-            {coins && <CoinPrinter coins={coins} favouritesState={undefined}/>}
+            {coins && <CoinPrinter coins={coins}/>}
         </>
     );
 }

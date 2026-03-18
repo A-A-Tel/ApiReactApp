@@ -12,6 +12,28 @@ export function CoinInfo(coin: CoinInfoData ) {
                         <h2>Symbol: <span className='text-coin-symbol'>{coin.symbol}</span></h2>
                     </div>
                 </div>
+                <ul className='text-2xl '>
+                    <li>
+                        Launch date: {coin.launchDate.toLocaleString()}
+                    </li>
+                    <li>
+                        24h change:
+                        <span className={coin.dayChange > 0 ? 'text-green-500' : 'text-red-500'}>
+                            {' ' + coin.dayChange.toFixed(6)}%
+                        </span>
+                    </li>
+                    <li>
+                        7d change:<span className={coin.weekChange > 0 ? 'text-green-500' : 'text-red-500'}>
+                            {' ' + coin.weekChange.toFixed(6)}%
+                        </span>
+                    </li>
+                    <li>
+                        30d change:
+                        <span className={coin.monthChange > 0 ? 'text-green-500' : 'text-red-500'}>
+                            {' ' + coin.monthChange.toFixed(6)}%
+                        </span>
+                    </li>
+                </ul>
                 <div>
                     <p>
                         <Markdown>{coin.description}</Markdown>

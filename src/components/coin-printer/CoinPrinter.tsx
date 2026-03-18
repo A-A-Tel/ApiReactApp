@@ -7,7 +7,7 @@ import type {CoinData} from "@/types.ts";
 
 type CoinPrinterProps = {
     coins: CoinData[],
-    favouritesState: [number[], (coins: number[]) => void] | undefined
+    favouritesState?: [number[], (coins: number[]) => void] | undefined
 }
 
 export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
@@ -28,7 +28,7 @@ export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
 
 
     return (
-        <div className='mt-6 flex flex-col gap-5'>
+        <div className='mt-6 flex flex-col gap-5 no-decor'>
             <div className='flex gap-5mx-auto w-fit mx-auto flex-col items-center gap-8 '>
                 <h2 className='speedee text-3xl'>Market cap</h2>
                 <PieChart series={[{
