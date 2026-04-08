@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import path from 'node:path' // Use node:path for file system resolution
+import path from 'node:path'
+
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
@@ -9,5 +10,11 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src/'),
     },
+  },
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  test: {
+    globals: true,
+    environment: "jsdom",
   },
 })

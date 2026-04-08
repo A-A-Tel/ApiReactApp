@@ -37,7 +37,7 @@ export function Home() {
                                     marketCap: coinData.CIRCULATING_MKT_CAP_USD
                                 });
                             }
-
+                            console.log(newCoins.slice(0, 5));
                             return newCoins.sort((a, b) => b.marketCap - a.marketCap);
                         });
                     })

@@ -28,7 +28,7 @@ export function CoinPrinter({coins, favouritesState}: CoinPrinterProps) {
 
 
     return (
-        <div className='mt-6 flex flex-col gap-5 no-decor'>
+        <div id='coin-printer' className='mt-6 flex flex-col gap-5 no-decor'>
             <div className='flex gap-5mx-auto w-fit mx-auto flex-col items-center gap-8 '>
                 <h2 className='speedee text-3xl'>Market cap</h2>
                 <PieChart series={[{
