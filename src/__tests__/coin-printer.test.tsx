@@ -1,60 +1,79 @@
-import { describe, expect, test } from 'vitest'
-import { render } from "@testing-library/react";
+import { describe, expect, test, vi } from 'vitest'
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { CoinPrinter } from "@/components/coin-printer";
-import type {CoinData} from "@/types.ts";
+import type { CoinData } from "@/types.ts";
+
+vi.mock('react-use', () => ({
+    useLocalStorage: () => [[], vi.fn()]
+}));
 
 describe('CoinPrinter', () => {
-
     const coins: CoinData[] = [
-        {
-            "id": 1,
-            "name": "Bitcoin",
-            "symbol": "BTC",
-            "price": 71689.418981532,
-            "oldPrice": 71689.418981532,
-            "icon": "https://resources.cryptocompare.com/asset-management/1/1756822117897.png",
-            "marketCap": 1434722134312.8743
-        },
-        {
-            "id": 2,
-            "name": "Ethereum",
-            "symbol": "ETH",
-            "price": 2244.31270313974,
-            "oldPrice": 2244.31270313974,
-            "icon": "https://resources.cryptocompare.com/asset-management/2/1774347920093.png",
-            "marketCap": 270868715608.84808
-        },
-        {
-            "id": 8,
-            "name": "BNB",
-            "symbol": "BNB",
-            "price": 612.150801848054,
-            "oldPrice": 612.150801848054,
-            "icon": "https://resources.cryptocompare.com/asset-management/8/1661250459982.png",
-            "marketCap": 83470893874.38066
-        },
-        {
-            "id": 29,
-            "name": "Bitcoin Cash",
-            "symbol": "BCH",
-            "price": 445.383597613164,
-            "oldPrice": 445.383597613164,
-            "icon": "https://resources.cryptocompare.com/asset-management/29/1774276616943.png",
-            "marketCap": 8915954649.325104
-        },
-        {
-            "id": 20883,
-            "name": "UCHAIN",
-            "symbol": "UCN",
-            "price": 361.748695852208,
-            "oldPrice": 361.748695852208,
-            "icon": "https://resources.cryptocompare.com/asset-management/20883/1760606290951.png",
-            "marketCap": 36174869.5852208
-        }
-    ]
+        { id: 1,  name: "Bitcoin",      symbol: "BTC", price: 71689.42, oldPrice: 71689.42, icon: "https://example.com/btc.png", marketCap: 1434722134312 },
+        { id: 2,  name: "Ethereum",     symbol: "ETH", price: 2244.31,  oldPrice: 2244.31,  icon: "https://example.com/eth.png", marketCap: 270868715608  },
+        { id: 8,  name: "BNB",          symbol: "BNB", price: 612.15,   oldPrice: 612.15,   icon: "https://example.com/bnb.png", marketCap: 83470893874   },
+        { id: 29, name: "Bitcoin Cash", symbol: "BCH", price: 445.38,   oldPrice: 445.38,   icon: "https://example.com/bch.png", marketCap: 8915954649    },
+    ];
 
-    test('prints all coins', () => {
-        const element = render(<CoinPrinter coins={coins}/>)
-        expect(element.container.querySelector('#coin-printer')?.children.length ?? -1, 'Should be five elements').toBe(coins.length + 2);
-    })
+    test('renders a row for each coin', () => {
+        render(<CoinPrinter coins={coins} />);
+        // Query by the name span specifically to avoid ambiguity with symbols like BNB/BNB
+        const nameSpans = document.querySelectorAll('.text-coin-name');
+        const renderedNames = Array.from(nameSpans).map(el => el.textContent);
+        coins.forEach(coin => {
+            expect(renderedNames).toContain(coin.name);
+        });
+    });
+
+    test('filters coins by name', async () => {
+        render(<CoinPrinter coins={coins} />);
+        const user = userEvent.setup();
+
+        await user.type(screen.getByPlaceholderText('Filter'), 'bitcoin');
+
+        const nameSpans = document.querySelectorAll('.text-coin-name');
+        const renderedNames = Array.from(nameSpans).map(el => el.textContent);
+
+        expect(renderedNames).toContain('Bitcoin');
+        expect(renderedNames).toContain('Bitcoin Cash');
+        expect(renderedNames).not.toContain('Ethereum');
+        expect(renderedNames).not.toContain('BNB');
+    });
+
+    test('filters coins by symbol', async () => {
+        render(<CoinPrinter coins={coins} />);
+        const user = userEvent.setup();
+
+        await user.type(screen.getByPlaceholderText('Filter'), 'eth');
+
+        const nameSpans = document.querySelectorAll('.text-coin-name');
+        const renderedNames = Array.from(nameSpans).map(el => el.textContent);
+
+        expect(renderedNames).toContain('Ethereum');
+        expect(renderedNames).not.toContain('Bitcoin');
+    });
+
+    test('shows all coins when filter is cleared', async () => {
+        render(<CoinPrinter coins={coins} />);
+        const user = userEvent.setup();
+        const input = screen.getByPlaceholderText('Filter');
+
+        await user.type(input, 'bitcoin');
+        await user.clear(input);
+
+        const nameSpans = document.querySelectorAll('.text-coin-name');
+        const renderedNames = Array.from(nameSpans).map(el => el.textContent);
+        coins.forEach(coin => {
+            expect(renderedNames).toContain(coin.name);
+        });
+    });
+
+    test('renders with external favourites state', () => {
+        const setFavourites = vi.fn();
+        render(<CoinPrinter coins={coins} favouritesState={[[1], setFavourites]} />);
+
+        const nameSpans = document.querySelectorAll('.text-coin-name');
+        expect(nameSpans.length).toBe(coins.length);
+    });
 });

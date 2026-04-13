@@ -14,7 +14,7 @@ export default defineConfig({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   test: {
-    globals: true,
-    environment: "jsdom",
-  },
+    environment: 'jsdom',
+    setupFiles: ['./vitest.setup.ts'],
+  }
 })
