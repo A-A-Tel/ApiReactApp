@@ -3,7 +3,6 @@ import { render, screen, waitFor, act } from '@testing-library/react';
 import { Home } from '@/pages/home';
 import type {CoinData} from "@/types.ts";
 
-// Mock child components
 vi.mock('@/components/header', () => ({ Header: () => <header>Header</header> }));
 vi.mock('@/components/coin-printer', () => ({
     CoinPrinter: ({ coins }: { coins: CoinData[] }) => (

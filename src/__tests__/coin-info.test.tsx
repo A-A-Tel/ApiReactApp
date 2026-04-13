@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { CoinInfo } from '@/components/coin-info'; // Adjust path
@@ -32,8 +31,6 @@ describe('CoinInfo Component', () => {
     it('formats the launch date correctly', () => {
         render(<CoinInfo {...mockCoinInfo} />);
 
-        // toLocaleString() output depends on the test environment locale,
-        // but we can check if the expected date parts exist.
         const dateText = mockCoinInfo.launchDate.toLocaleString();
         expect(screen.getByText(new RegExp(dateText))).toBeInTheDocument();
     });
@@ -48,7 +45,6 @@ describe('CoinInfo Component', () => {
     it('applies red color classes for negative changes and handles precision', () => {
         render(<CoinInfo {...mockCoinInfo} />);
 
-        // -5.1234567 should be fixed to 6 decimal places: -5.123457
         const weekChangeSpan = screen.getByText(/-5.123457%/);
         expect(weekChangeSpan).toHaveClass('text-red-500');
     });
@@ -56,7 +52,6 @@ describe('CoinInfo Component', () => {
     it('renders markdown description correctly', () => {
         render(<CoinInfo {...mockCoinInfo} />);
 
-        // Since react-markdown renders **decentralized** as <strong> or <b>
         const boldText = screen.getByText('decentralized');
         expect(boldText.tagName).toMatch(/STRONG|B/);
         expect(screen.getByText(/Ethereum is a/)).toBeInTheDocument();

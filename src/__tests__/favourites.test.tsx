@@ -4,12 +4,10 @@ import { Favourites } from '@/pages/favourites';
 import { useLocalStorage } from 'react-use';
 import type {CoinData} from "@/types.ts";
 
-// Mock react-use to control the favourites list
 vi.mock('react-use', () => ({
     useLocalStorage: vi.fn(),
 }));
 
-// Mock child components
 vi.mock('@/components/header', () => ({ Header: () => <header>Header</header> }));
 vi.mock('@/components/coin-printer', () => ({
     CoinPrinter: ({ coins }: { coins: CoinData[] }) => (
