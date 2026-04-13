@@ -1,0 +1,8 @@
+.coin {
+    width: 100vw;
+    height: 5rem;
+    background: var(--secondary);
+    display: grid;
+    grid-auto-columns: 20vw;
+    grid-template-columns: 5vw 17vw 15vw 26vw 21vw 12vw 2vw;
+}
